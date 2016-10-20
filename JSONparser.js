@@ -5,7 +5,7 @@ let colonParser = (input) => input.match(/:/) ? [null, input.slice(input.match(/
 let boolParser = (input) => input.startsWith('true') ? [true, input.slice(4)] :(input.startsWith('false') ? [false, input.slice(5)] : null)
 let numberParser = (input, num = /^[-+]?(\d+(\.\d*)?|\.\d+)([e][+-]?\d+)?/i) => (input.match(num)) ? [parseFloat(input.match(num)[0]), input.slice(input.match(num)[0].length)] : null
 
-let stringParser = (input, i=1) => {
+let stringParser = (input, i = 1) => {
   if (!input.startsWith('"')) return null
   while (input[i] !== '"') (input[i] === '\\') ? i = i + 2 : i++
   return [input.substring(1, i), input.slice(i + 1)]
@@ -21,8 +21,7 @@ let arrayParser = (input) => {
     arr.push(input[0])
     input = spaceParser(input[1])[1]
     let temp = commaParser(input)
-    if (!temp) break
-    input = temp[1]
+    if (!temp) { break } input = temp[1]
   }
   return (input) ? [arr, input.slice(1)] : [arr,input]
 }
@@ -41,8 +40,7 @@ let objectParser = (input) => {
     obj[key] = value[0]
     input = spaceParser(value[1])[1]
     let temp = commaParser(input)
-    if (!temp) break
-    input = temp[1]
+    if (!temp) { break } input = temp[1]
   }
   return (input) ? [obj, input.slice(1)] : [obj, input]
 }
