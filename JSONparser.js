@@ -2,19 +2,11 @@ let commaParser = (input) => (input[0] === ',') ? [null, input.slice(1)] : null
 let spaceParser = (input) => input.match(/\S/) ? [null,input.slice(input.match(/\S/).index)] : null
 let nullParser = (input) => input.startsWith('null')  ? [null, input.slice(4)] : null
 let colonParser = (input) => input.match(/:/) ? [null, input.slice(input.match(/:/).index+1)] : null
-let boolParser = (input) => {
-  if (input.startsWith('true')) return [true, input.slice(4)]
-  return input.startsWith('false') ? [false, input.slice(5)] : null
-}
+let boolParser = (input) => input.startsWith('true') ? [true, input.slice(4)] :(input.startsWith('false') ? [false, input.slice(5)] : null)
+let numberParser = (input, num = /^[-+]?(\d+(\.\d*)?|\.\d+)([e][+-]?\d+)?/i) => (input.match(num)) ? [parseFloat(input.match(num)[0]), input.slice(input.match(num)[0].length)] : null
 
-let numberParser = (input) => {
-  let num = /^[-+]?(\d+(\.\d*)?|\.\d+)([e][+-]?\d+)?/i
-  return (input.match(num)) ? [parseFloat(input.match(num)[0]), input.slice(input.match(num)[0].length)] : null
-}
-
-let stringParser = (input) => {
+let stringParser = (input, i=1) => {
   if (!input.startsWith('"')) return null
-  let i = 1
   while (input[i] !== '"') (input[i] === '\\') ? i = i + 2 : i++
   return [input.substring(1, i), input.slice(i + 1)]
 }
